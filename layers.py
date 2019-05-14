@@ -4,12 +4,12 @@ import functional
 import numpy as np
 
 class Layer(ABC):
-    def __init__(self, in_size, out_size, activation_f):
+    def __init__(self, in_size, out_size, activation):
 
         self.in_size = in_size
         self.out_size = out_size
 
-        self.activation = activation_f
+        self.activation = activation
 
     @abstractmethod
     def feed(self, X):
@@ -17,9 +17,9 @@ class Layer(ABC):
 
 
 class Dense(Layer):
-    def __init__(self, in_size, out_size, activation_f=functional.sigmoid):
+    def __init__(self, in_size, out_size, activation=functional.sigmoid):
 
-        super().__init__(in_size, out_size, activation_f)
+        super().__init__(in_size, out_size, activation)
 
         self.x = np.zeros((in_size, 1))
         self.W = np.random.rand(out_size, in_size) * 2 - 1

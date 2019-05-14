@@ -1,11 +1,9 @@
-from abc import ABC, abstractmethod
 import numpy as np
-
 import functional
 
-class NN:
+class Network:
 
-    def __init__(self, layers=[], loss_function, lr):
+    def __init__(self, layers=[], loss_function=functional.MSE, lr=0.001):
         self.layers = layers
         self.loss_function = loss_function
         self.lr = lr
@@ -14,16 +12,18 @@ class NN:
         for _ in range(epochs):
 
             for x, y in zip(x_train, y_train):
-                self.feed(x)
 
-                error = np.sum(self.loss_function(self.layers[-1].a, y))
+                self.feed(x)
                 self.backprop(y)
 
-            print('Epoch: {}. Error: {}'.format(_ + 1, error))
+                error = np.sum(self.loss_function(self.layers[-1].a, y))
+
+            print('Epoch {}/{}. Error: {}'.format(_ + 1, epochs, error))
 
     def feed(self, x):
         for L in self.layers:
             x = L.feed(x)
+        return x
 
     def backprop(self, y):
 
@@ -52,14 +52,3 @@ class NN:
         for l in range(len(self.layers)):
             self.layers[l].W -= (self.layers[l].W_grad * self.lr)
             self.layers[l].b -= (self.layers[l].b_grad * self.lr)
-
-    def test(self, x_test, y_test):
-        total = 0
-        success = 0
-        for x, y in zip(x_test, y_test):
-            total += 1
-            self.feed(x)
-
-            success += (np.argmax(self.layers[-1].a) == np.argmax(y))
-
-        print('Accuracy: {}'.format(success/total))
