@@ -27,7 +27,7 @@ y_test = mnist.test_labels()
 nn = Network([
     Dense(28*28, 32, activation=relu),
     Dense(32, 10, activation=softmax)
-], CrossEntropy)
+])
 
 
 x = []
@@ -40,7 +40,7 @@ for im, label in zip(x_train[:], y_train[:]):
     y[-1] = y[-1].reshape((10, 1))
 
 
-nn.fit(x_train=x, y_train=y, epochs=1)
+nn.fit(x_train=x, y_train=y, epochs=5, loss_f=CrossEntropy, lr=0.001)
 
 x = []
 y = []

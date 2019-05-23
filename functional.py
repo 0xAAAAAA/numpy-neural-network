@@ -23,6 +23,28 @@ def softmax(x, deriv=False):
     exps = np.exp(x - x.max())
     return exps / np.sum(exps)
 
+
+def logp(x, deriv=False):
+    """
+    If deriv == True, returns dsoft/soft
+    else, returns soft
+    """
+    soft = softmax(x)
+    if deriv:
+        return (1 - soft)
+    #return np.log(soft)
+    return soft
+
+def ln(x, deriv=False):
+    if x < 0:
+        x -= 1e-9
+    else:
+        x += 1e-9
+
+    if deriv:
+        return (1.0 / x)
+    return np.log(x)
+
 """
 Loss functions
 """
