@@ -76,7 +76,7 @@ class Network:
 
         self.compute_loss_f_grads(y, loss_f)
 
-        # Subtract computed gradients from weights and biases
+        # Apply Stochastic Gradient Descent
         for l in range(len(self.layers)):
             self.layers[l].W -= (self.layers[l].W_grad * lr)
             self.layers[l].b -= (self.layers[l].b_grad * lr)
